@@ -10,8 +10,6 @@ imgSection.classList.remove("hide");
 
 var playerDetails=document.getElementById("playerDetails");
 playerDetails.classList.remove("hide");
-
-
   var xhr = new XMLHttpRequest();
   var result=null;
 var url = "http://127.0.0.1:8002/getQuotesByPlayer";
