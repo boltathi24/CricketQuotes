@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 	public class DBUtil {
@@ -51,6 +52,29 @@ import java.util.HashMap;
 		return valueToBeRead;
 
 	}
+	
+	/**
+	 * @Desc get MultiValues
+	 * @param rs
+	 * @throws SQLException
+	 */
+	public static ArrayList<HashMap<String,String>>  getMultiValueFromResultSet(ResultSet rs) throws SQLException {
+		ResultSetMetaData rsmd = rs.getMetaData();
+		ArrayList<HashMap<String,String>> valueToBeRead = new ArrayList<HashMap<String,String>> ();
+
+		while (rs.next()) {
+			HashMap<String,String> temp=new HashMap<String,String>();
+			for (int i = 1; i <= rsmd.getColumnCount(); i++)
+			{
+				String name = rsmd.getColumnName(i);
+				
+				temp.put(name,  rs.getString(i));
+			}
+			valueToBeRead.add(temp);
+		}
+		return valueToBeRead;
+
+	}
 
 	/**
 	 * @param query
@@ -68,6 +92,34 @@ import java.util.HashMap;
 			rs = stmt.executeQuery(query);
 
 			valueRead = getValueFromResultSet(rs);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			e.getStackTrace();
+		} finally {
+			rs.close();
+			stmt.close();
+
+		}
+		return valueRead;
+	}
+	
+	/**
+	 * @param query
+	 * @return ArrayList<HashMap<String, String>>
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public static ArrayList<HashMap<String, String>> executeQueryForReadMultiValues(String query)
+			throws SQLException, ClassNotFoundException {
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<HashMap<String, String>> valueRead = null;
+		try {
+			stmt = getDbConnection().createStatement();
+			rs = stmt.executeQuery(query);
+
+			valueRead = getMultiValueFromResultSet(rs);
 
 		} catch (Exception e) {
 			e.getStackTrace();

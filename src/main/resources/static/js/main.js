@@ -12,22 +12,45 @@ var playerDetails=document.getElementById("playerDetails");
 playerDetails.classList.remove("hide");
 
 
-  /* var xhr = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest();
      var result=null;
-var url = "http://192.168.143.252:8002/triggerAutomation";
+var url = "http://127.0.0.1:8002/getQuotesByPlayer";
 xhr.open("POST", url, true);
-var data = JSON.stringify({"env": env, "suite": suite,"preLocalStatus":pre});
+var data = JSON.stringify({"playerName": playerToSearch});
 
 xhr.setRequestHeader("Content-Type", "application/json");
 
 xhr.onload=function()
 {
 result=xhr.responseText;
-alert(result);
+console.log(result);
+var obj = JSON.parse(result);
+document.getElementById("playerImage").src = "data:image/png;base64," + obj.imageDataValue;
+document.getElementById("playerRunsTxt").value =  obj.runScored;
+document.getElementById("playerAgeTxt").value =  obj.playerAge;
+document.getElementById("playerNameBy").value =  obj.playerName;
+document.getElementById("playerNameTxt").value =  obj.playerName;
+
+var quotes = obj.quoteContent;
+console.log(quotes);
+var htmlContent="";
+console.log(quotes.length);
+for(var i=0;i<quotes.length;i++)
+{
+	htmlContent=htmlContent+"<li class=\"quotes quoteFont \" >"+quotes[i]+"</li>";
+
+
+}
+console.log(htmlContent)
+document.getElementById("quotesList").innerHTML = htmlContent;
+
+
+
+
 };     
 
 
 
 xhr.send(data);
-*/
+
 }

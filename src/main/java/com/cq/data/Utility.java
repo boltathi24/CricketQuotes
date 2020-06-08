@@ -1,18 +1,12 @@
 package com.cq.data;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
 
-import javax.imageio.ImageIO;
+import org.json.JSONObject;
 
 public class Utility {
 	
@@ -23,7 +17,18 @@ public class Utility {
 		
 		
 		}
-	
+	public JSONObject mergeJsons(JSONObject js1,JSONObject js2)
+	{
+		JSONObject mergedJSON = new JSONObject();
+		
+			mergedJSON = new JSONObject(js1, JSONObject.getNames(js1));
+			for (String crunchifyKey : JSONObject.getNames(js2)) {
+				mergedJSON.put(crunchifyKey, js2.get(crunchifyKey));
+			}
+			return mergedJSON;
+		
+ 
+	}
 
 	public String convertBase64FromImagePath (String filePath) throws IOException {
 		// open image
@@ -72,7 +77,7 @@ public class Utility {
 		FileOutputStream osf = new FileOutputStream(of);
 		osf.write(value);
 		osf.flush();
-		System.out.println(of.getAbsolutePath());
+		
 		return of.getAbsolutePath();			
 	}
 	
