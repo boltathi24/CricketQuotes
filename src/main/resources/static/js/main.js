@@ -13,7 +13,7 @@ playerDetails.classList.remove("hide");
 
 
   var xhr = new XMLHttpRequest();
-     var result=null;
+  var result=null;
 var url = "http://127.0.0.1:8002/getQuotesByPlayer";
 xhr.open("POST", url, true);
 var data = JSON.stringify({"playerName": playerToSearch});
